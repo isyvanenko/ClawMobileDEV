@@ -105,6 +105,7 @@ public class ClawController2D : MonoBehaviour
         }
         else
         {
+            Debug.Log("Test");
             isMovingUp = false;
         }
     }

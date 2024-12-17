@@ -127,4 +127,26 @@ IEnumerator FailPickUp()
 
 }
 
+IEnumerator SuccessPickUp()
+{
+
+    PickUpObject();
+
+    canMove = false;
+    clawController2D.StartMovingUp();
+    canPickUpAgain = false;
+
+
+    yield return new WaitForSeconds(3);
+
+    
+    
+    Debug.Log("Finished Coroutine");
+    canMove = true;
+    
+    canPickUpAgain = true;
+
+
+}
+
 }
