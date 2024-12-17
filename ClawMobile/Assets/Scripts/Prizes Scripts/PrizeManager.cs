@@ -5,7 +5,8 @@ using UnityEngine;
 public class PrizeManager : MonoBehaviour
 {
     [Header("List of Prizes")]
-    public List<Prize> prizePool = new List<Prize>();
+    public List <Prize> prizePool = new List<Prize>();
+   
 
     private List<Prize> collectedPrizes = new List<Prize>();
 

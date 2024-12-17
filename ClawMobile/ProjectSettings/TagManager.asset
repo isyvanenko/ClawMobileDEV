@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pickable
   - ClawController2D
+  - PrizeManager
   layers:
   - Default
   - TransparentFX

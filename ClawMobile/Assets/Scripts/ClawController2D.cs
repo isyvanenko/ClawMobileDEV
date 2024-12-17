@@ -152,5 +152,15 @@ public class ClawController2D : MonoBehaviour
     }
      //MOBILE CONTROLLS
     /////////////////////////////////////////////////////////
+    ///
+
+    public void ResetClawPosition()
+    {
+    isMovingDown = false; // Ensure downward movement stops
+    isMovingUp = false;   // Stop upward movement
+    transform.position = new Vector3(transform.position.x, maxY, transform.position.z); // Reset to top position
+    Debug.Log("Claw reset and ready to move down again.");
+    }
+
 }
 

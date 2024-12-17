@@ -9,9 +9,14 @@ public class ClawPickUp : MonoBehaviour
     private GameObject pickedObject;   // Object currently picked up by the claw
     public Vector3 ropeStartPosition; // Starting position of the rope
     public float moveSpeed = 5f;      // Speed of horizontal movement
+
+    private bool isReadyToPick = false; // New flag to check if claw is ready to pick up
+
     public GameObject RopeSystem;
 
-    public ClawController2D clawController2D;
+    PrizeManager prizeManager;
+
+    ClawController2D clawController2D;
 
     public bool canMove = true;
     private bool canPickUpAgain = true;
@@ -19,7 +24,8 @@ public class ClawPickUp : MonoBehaviour
     void Start()
     {
         clawController2D = GameObject.FindGameObjectWithTag("ClawController2D").GetComponent<ClawController2D>();
-        if(clawController2D == null) Debug.LogError("Assign clawController to the ClawPickUp");
+        prizeManager = GameObject.FindGameObjectWithTag("PrizeManager").GetComponent<PrizeManager>();
+       
 
     }
 
@@ -27,25 +33,27 @@ public class ClawPickUp : MonoBehaviour
     {
         // Check if the object is pickable (use a tag to identify pickable objects)
         if (other.CompareTag("Pickable"))
-        {
-            detectedObject = other.gameObject; // Save reference to the detected object
-        }
+    {
+        detectedObject = other.gameObject; // Save reference to the detected object
+        isReadyToPick = true; // Set flag to allow pickup
+        Debug.Log("Detected a pickable object: " + detectedObject.name);
+    }
     }
 
     void Update()
     {
-        if(canPickUpAgain)
+        if(isReadyToPick && canPickUpAgain)
         {
             if (Input.GetKeyDown(KeyCode.E) && detectedObject != null && pickedObject == null)
         {
             // Generate a random chance (50%)
-            bool success = Random.value > 0.5f;
+            bool success = Random.value > 1f;
 
             if (success)
             {
-                    // Attach the detected object to the claw
                     
-                    StartCoroutine(FailPickUp());
+                    Debug.Log("Pickup successful. Claw reset");
+                    StartCoroutine(SuccessPickUp());
                 }
             else
             {
@@ -83,27 +91,26 @@ public class ClawPickUp : MonoBehaviour
 
     public void PickUpFunction()
     {
-        Debug.Log("PRESSING");
-        if(canPickUpAgain == true)
-        {
-            Debug.Log("Button PickUp");
-            // Generate a random chance (50%)
-            bool success = Random.value > 0.5f;
+        if (isReadyToPick && canPickUpAgain)
+    {
+        Debug.Log("Attempting to pick up...");
+        bool success = Random.value > 0.5f; // Random chance
 
-                if (success)
-                {
-                    // Attach the detected object to the claw
-                    
-                    Debug.Log("Succesful syka");
-                }
-                      else
-                      {
-            
-                          Debug.Log("Pickup failed. Claw reset.");
-                           StartCoroutine(FailPickUp());
-                    }
-         
+        if (success)
+        {
+            Debug.Log("Pickup success");
+            StartCoroutine(SuccessPickUp());
         }
+        else
+        {
+            Debug.Log("Pickup failed");
+            StartCoroutine(FailPickUp());
+        }
+    }
+    else
+    {
+        Debug.LogWarning("Cannot pick up! No object detected.");
+    }
     }
 IEnumerator FailPickUp()
 {
@@ -111,18 +118,25 @@ IEnumerator FailPickUp()
     PickUpObject();
 
     canMove = false;
-    clawController2D.StartMovingUp();
+    
     canPickUpAgain = false;
+
+    clawController2D.StartMovingUp();
 
 
     yield return new WaitForSeconds(3);
 
     ReleaseObject();
+
+    clawController2D.ResetClawPosition();
     
     Debug.Log("Finished Coroutine");
     canMove = true;
     
     canPickUpAgain = true;
+    isReadyToPick = false; // Reset flag
+    detectedObject = null;
+    pickedObject = null;
 
 
 }
@@ -133,18 +147,26 @@ IEnumerator SuccessPickUp()
     PickUpObject();
 
     canMove = false;
-    clawController2D.StartMovingUp();
+    
     canPickUpAgain = false;
+
+    clawController2D.StartMovingUp();
 
 
     yield return new WaitForSeconds(3);
 
+    prizeManager.SpawnRandomPrize();
     
-    
+    clawController2D.ResetClawPosition();
+
     Debug.Log("Finished Coroutine");
     canMove = true;
-    
+    isReadyToPick = false; // Reset flag
     canPickUpAgain = true;
+    Destroy(detectedObject);
+    Destroy(pickedObject);
+    detectedObject = null;
+    pickedObject = null;
 
 
 }
