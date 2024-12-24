@@ -32,7 +32,7 @@ public class ClawPickUp : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the object is pickable (use a tag to identify pickable objects)
-        if (other.CompareTag("Pickable"))
+        if (other.CompareTag("PrizeTag"))
     {
         detectedObject = other.gameObject; // Save reference to the detected object
         isReadyToPick = true; // Set flag to allow pickup
@@ -47,7 +47,7 @@ public class ClawPickUp : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && detectedObject != null && pickedObject == null)
         {
             // Generate a random chance (50%)
-            bool success = Random.value > 1f;
+            bool success = Random.value > 0.5f;
 
             if (success)
             {

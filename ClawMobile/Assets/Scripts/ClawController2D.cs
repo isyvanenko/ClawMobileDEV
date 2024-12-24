@@ -22,13 +22,25 @@ public class ClawController2D : MonoBehaviour
     private Vector3 startPosition;
     private float moveStep = 0.1f;
 
+    //delete later
+    public Vector2 testVector;
+
+
+
+    public JoystickMovement joystick;      // Reference to the horizontal joystick
+    
+
     void Start()
     {
         startPosition = transform.position;
+
+        //delete later
+        
     }
 
     void Update()
     {
+        
        if(isProcPickUp.canMove == true)
        {
         ///////////////////////////////////////////////////////
@@ -44,9 +56,20 @@ public class ClawController2D : MonoBehaviour
         //PC testing
         /////////////////////////////////////////////////////////
         
+         // Get horizontal input from the joystick
+        float horizontalJoystic = joystick.horizontalInput;
+
+        // Move the claw horizontally based on joystick input
+        transform.Translate(Vector3.right * horizontalJoystic * moveSpeed * Time.deltaTime / 5);
+
+        // Clamp the claw's position within horizontal boundaries
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, minX, maxX), // Clamp horizontal position
+            transform.position.y,                         // Keep vertical position unchanged
+            transform.position.z                          // Keep Z position unchanged
+        );
         
         
-        // -> Move the claw based on the horizontal input
        
         
 
@@ -99,7 +122,7 @@ public class ClawController2D : MonoBehaviour
 
     private void MoveUp()
     {
-        if(transform.position.y < maxY)
+        if(transform.position.y < startPosition.y + testVector.y)
         {
             transform.Translate(Vector3.up * descendSpeed * Time.deltaTime);
         }
@@ -158,7 +181,8 @@ public class ClawController2D : MonoBehaviour
     {
     isMovingDown = false; // Ensure downward movement stops
     isMovingUp = false;   // Stop upward movement
-    transform.position = new Vector3(transform.position.x, maxY, transform.position.z); // Reset to top position
+    //transform.position = new Vector3(transform.position.x, maxY, transform.position.z); // Reset to top position
+    transform.position = startPosition;
     Debug.Log("Claw reset and ready to move down again.");
     }
 
