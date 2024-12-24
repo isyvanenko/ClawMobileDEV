@@ -68,16 +68,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne.png.meta
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne.png
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne.json.meta
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne.json
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta
-ClawMobile/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt
-ClawMobile/Assets/TextMesh Pro.meta
-ClawMobile/Assets/Scripts/Sprites/Handle 5 Medium.png
-ClawMobile/Assets/Scripts/Sprites/Handle 5 Big.png.meta
-ClawMobile/Assets/Scripts/Sprites/Handle 5 Big.png
-ClawMobile/Assets/Scripts/Sprites/Handle 4 Small.png.meta
+
+
